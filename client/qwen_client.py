@@ -60,16 +60,23 @@ class QwenClient:
             "messages": messages,
             "reasoning_effort": reasoning_effort,
             "max_tokens": max_tokens,
-            **QWEN_SAMPLING_DEFAULTS,
+            "temperature": QWEN_SAMPLING_DEFAULTS["temperature"],
+            "top_p": QWEN_SAMPLING_DEFAULTS["top_p"],
+            "presence_penalty": QWEN_SAMPLING_DEFAULTS["presence_penalty"],
             **overrides,
         }
-        # Qwen3.8 thinking-mode params via extra_body (vLLM passthrough)
+        # Qwen3.8 thinking-mode params + vLLM-only sampling params via extra_body
+        # (top_k, min_p, repetition_penalty are not standard OpenAI API params;
+        #  vLLM accepts them in extra_body)
         extra_body = overrides.pop("extra_body", {})
         params["extra_body"] = {
             "chat_template_kwargs": {
                 "enable_thinking": enable_thinking,
                 "preserve_thinking": preserve_thinking,
             },
+            "top_k": QWEN_SAMPLING_DEFAULTS["top_k"],
+            "min_p": QWEN_SAMPLING_DEFAULTS["min_p"],
+            "repetition_penalty": QWEN_SAMPLING_DEFAULTS["repetition_penalty"],
             **extra_body,  # merge caller's extra_body (e.g. mm_processor_kwargs)
         }
         resp = self.client.chat.completions.create(**params)

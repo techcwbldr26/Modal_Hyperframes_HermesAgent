@@ -72,12 +72,15 @@ class TestChatPayload:
         client.chat([{"role": "user", "content": "hello"}])
 
         call_kwargs = mock_client.chat.completions.create.call_args.kwargs
+        # Standard OpenAI params
         assert call_kwargs["temperature"] == 1.0
         assert call_kwargs["top_p"] == 0.95
-        assert call_kwargs["top_k"] == 20
-        assert call_kwargs["min_p"] == 0.0
         assert call_kwargs["presence_penalty"] == 0.0
-        assert call_kwargs["repetition_penalty"] == 1.0
+        # vLLM-only params in extra_body
+        extra = call_kwargs["extra_body"]
+        assert extra["top_k"] == 20
+        assert extra["min_p"] == 0.0
+        assert extra["repetition_penalty"] == 1.0
 
     @patch("client.qwen_client.OpenAI")
     def test_chat_includes_reasoning_effort(self, mock_openai_cls):
