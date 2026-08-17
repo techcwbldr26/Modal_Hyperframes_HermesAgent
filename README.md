@@ -14,6 +14,15 @@ Serverless **Qwen3.8-27B** (BF16, thinking mode) on **Modal H200** via vLLM, dri
 - [x] Task 8: Harness-engineering 5–7 min course video (full test)
 - [ ] Task 9: README + verification pass
 
+## Additional gotchas discovered (Task 5-8)
+
+| Symptom | Fix |
+|---|---|
+| `Completions.create() got an unexpected keyword argument 'top_k'` | OpenAI SDK doesn't accept top_k, min_p, repetition_penalty as direct params — move to `extra_body={}` |
+| `uv run --with "openai>=1.x"` parse error | Use `openai>=1.0` (PEP 440 doesn't accept `1.x`) |
+| Cold start takes 8+ min (not 2-5) | 52 GB download + torch.compile + CUDA graphs = ~8 min first time; set `startup_timeout=20*MINUTES` |
+| `--reasoning-effort` not accepted by vLLM CLI | reasoning_effort is request-time, not a server flag — set via OpenAI client per-request |
+
 ## Architecture
 
 ```
