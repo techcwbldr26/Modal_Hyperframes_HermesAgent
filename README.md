@@ -40,4 +40,4 @@ See `.hermes/plans/2026-08-17_084841-modal-hyperframes-hermes.md` for the full i
 | GPU | H200 SXM (141 GB, $4.54/hr) |
 | Storage | Modal Volumes (1 TiB free, then $0.09/GiB/mo) |
 | HF transfer | Xet (hf_xet, HF_XET_HIGH_PERFORMANCE=1) |
-| Spend (Aug 2026) | $15.52 this month (scroll-world H200 runs, Aug 4) |
+| Modal balance | $30.00 (user-confirmed, 2026-08-17) |
