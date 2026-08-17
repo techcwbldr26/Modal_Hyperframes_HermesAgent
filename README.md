@@ -7,7 +7,7 @@ Serverless **Qwen3.8-27B** (BF16, thinking mode) on **Modal H200** via vLLM, dri
 - [x] Task 1: Project scaffold
 - [x] Task 2: Modal MCP registered in Hermes
 - [x] Task 3: Modal account state verified
-- [ ] Task 4: `qwen38_serve.py` written
+- [x] Task 4: `qwen38_serve.py` written
 - [ ] Task 5: Deployed + endpoint smoke-tested
 - [ ] Task 6: Qwen client + CLI
 - [ ] Task 7: HyperFrames scaffold + hot-tips contract
