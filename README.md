@@ -11,7 +11,7 @@ Serverless **Qwen3.8-27B** (BF16, thinking mode) on **Modal H200** via vLLM, dri
 - [x] Task 5: Deployed + endpoint smoke-tested
 - [x] Task 6: Qwen client + CLI
 - [x] Task 7: HyperFrames scaffold + hot-tips contract
-- [ ] Task 8: Harness-engineering 5–7 min course video (full test)
+- [x] Task 8: Harness-engineering 5–7 min course video (full test)
 - [ ] Task 9: README + verification pass
 
 ## Architecture
