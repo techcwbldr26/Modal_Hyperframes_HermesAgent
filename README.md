@@ -41,3 +41,13 @@ See `.hermes/plans/2026-08-17_084841-modal-hyperframes-hermes.md` for the full i
 | Storage | Modal Volumes (1 TiB free, then $0.09/GiB/mo) |
 | HF transfer | Xet (hf_xet, HF_XET_HIGH_PERFORMANCE=1) |
 | Modal balance | $30.00 (user-confirmed, 2026-08-17) |
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `TypeError: The @app.server() decorator must be used on a class.` | Modal 1.5.2 requires class-based `@app.server()` — see `qwen38_serve.py` |
+| `Error: No such command 'validate'` | Validate locally: `uv run --with "modal>=1.5.2,<1.6" python -c "import qwen38_serve"` |
+| `Error: No such command 'quota'` | Use `modal billing report --for "this month" --show-resources` |
+| `hermes mcp add` cancels in scripts | Pipe `Y`: `echo "Y" \| hermes mcp add ...` |
+| `--env` values land in `args` after `hermes mcp add` | Move them into an `env:` block in `~/.hermes/config.yaml` via a Python yaml script |
