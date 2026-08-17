@@ -19,6 +19,8 @@ logs/*
 out*.mp4
 *.mp4
 !harness-engineering/**/*.mp4
+hyperframes/renders/
+hyperframes/.thumbnails/
 
 # HyperFrames
 .hyperframes/

@@ -1,517 +1,446 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
     <title>Agent Harness Engineering</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="agent-harness-engineering"
-      data-start="0"
-      data-duration="382"
-      data-width="1920"
-      data-height="1080"
-      data-layout-allow-overflow
-    >
+    <div data-hf-id="hf-hij7" id="root" data-composition-id="agent-harness-engineering" data-start="0" data-duration="382" data-width="1920" data-height="1080" data-layout-allow-overflow="">
       <!-- ────────────────────────────────────────────────────
            CLIP 1 — Introduction to Agent Harness Engineering
            start 0 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-1"
-        class="clip"
-        data-start="0"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-m2pk" id="clip-1" class="clip" data-start="0" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-aylh" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-dvl3" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-bnoa" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 01</span>
-          <h1 class="title">Agent Harness Engineering</h1>
-          <p class="subtitle">What wraps an LLM to make it an agent?</p>
+        <div data-hf-id="hf-cn5c" class="scene-content">
+          <span data-hf-id="hf-ra37" class="badge badge-cyan" data-el="badge">SECTION 01</span>
+          <h1 data-hf-id="hf-qo6a" class="title">Agent Harness Engineering</h1>
+          <p data-hf-id="hf-to5l" class="subtitle">What wraps an LLM to make it an agent?</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan" data-el="left-card">
-              <h3 class="card-title">Agent = Model + Harness</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Model = the brain (LLM)</li>
-                <li data-el="bullet">Harness = everything around it</li>
-                <li data-el="bullet">Analogy: OS wraps a CPU</li>
-                <li data-el="bullet">Same model, 6× performance difference</li>
+          <div data-hf-id="hf-62wu" class="cards-row">
+            <div data-hf-id="hf-k4gz" class="card card-cyan" data-el="left-card">
+              <h3 data-hf-id="hf-3jar" class="card-title">Agent = Model + Harness</h3>
+              <ul data-hf-id="hf-99ov" class="bullets">
+                <li data-hf-id="hf-pk2j" data-el="bullet">Model = the brain (LLM)</li>
+                <li data-hf-id="hf-1792" data-el="bullet">Harness = everything around it</li>
+                <li data-hf-id="hf-vmhn" data-el="bullet">Analogy: OS wraps a CPU</li>
+                <li data-hf-id="hf-w27x" data-el="bullet">Same model, 6× performance difference</li>
               </ul>
             </div>
-            <div class="card card-purple" data-el="right-card">
-              <h3 class="card-title">The OS Analogy</h3>
-              <ul class="bullets">
-                <li data-el="bullet">LLM = CPU</li>
-                <li data-el="bullet">Context = RAM</li>
-                <li data-el="bullet">Database = Disk</li>
-                <li data-el="bullet">Tools = Drivers</li>
-                <li data-el="bullet">Harness = Operating System</li>
+            <div data-hf-id="hf-6xjj" class="card card-purple" data-el="right-card">
+              <h3 data-hf-id="hf-i8fz" class="card-title">The OS Analogy</h3>
+              <ul data-hf-id="hf-uh67" class="bullets">
+                <li data-hf-id="hf-xopi" data-el="bullet">LLM = CPU</li>
+                <li data-hf-id="hf-t1aw" data-el="bullet">Context = RAM</li>
+                <li data-hf-id="hf-5q7v" data-el="bullet">Database = Disk</li>
+                <li data-hf-id="hf-kod3" data-el="bullet">Tools = Drivers</li>
+                <li data-hf-id="hf-rax5" data-el="bullet">Harness = Operating System</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-amber" data-el="callout">
+          <div data-hf-id="hf-wmsc" class="callout callout-amber" data-el="callout">
             The harness is the operating system for your AI agent.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-f9h0" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-7ydy" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 2 — Framework vs Harness
            start 38 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-2"
-        class="clip"
-        data-start="38"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-amber" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-hli2" id="clip-2" class="clip" data-start="38" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-li49" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-iqbv" class="glow glow-amber" aria-hidden="true"></div>
+        <div data-hf-id="hf-y94u" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 02</span>
-          <h1 class="title">Framework vs Harness</h1>
-          <p class="subtitle">Two paradigms for building AI agents</p>
+        <div data-hf-id="hf-o0eg" class="scene-content">
+          <span data-hf-id="hf-qvs6" class="badge badge-cyan" data-el="badge">SECTION 02</span>
+          <h1 data-hf-id="hf-0hx7" class="title">Framework vs Harness</h1>
+          <p data-hf-id="hf-1rxq" class="subtitle">Two paradigms for building AI agents</p>
 
-          <div class="cards-row">
-            <div class="card card-amber" data-el="left-card">
-              <h3 class="card-title">Frameworks</h3>
-              <p class="card-tag">Build from parts</p>
-              <ul class="bullets">
-                <li data-el="bullet">LangChain, AutoGen</li>
-                <li data-el="bullet">Manual wiring of chains &amp; retrievers</li>
-                <li data-el="bullet">You assemble the pipeline</li>
-                <li data-el="bullet">Building blocks, not a working agent</li>
+          <div data-hf-id="hf-6bz6" class="cards-row">
+            <div data-hf-id="hf-qt1h" class="card card-amber" data-el="left-card">
+              <h3 data-hf-id="hf-wrki" class="card-title">Frameworks</h3>
+              <p data-hf-id="hf-jqa4" class="card-tag">Build from parts</p>
+              <ul data-hf-id="hf-u2v6" class="bullets">
+                <li data-hf-id="hf-hvj0" data-el="bullet">LangChain, AutoGen</li>
+                <li data-hf-id="hf-4zve" data-el="bullet">Manual wiring of chains &amp; retrievers</li>
+                <li data-hf-id="hf-26ac" data-el="bullet">You assemble the pipeline</li>
+                <li data-hf-id="hf-9cq2" data-el="bullet">Building blocks, not a working agent</li>
               </ul>
             </div>
-            <div class="card card-emerald" data-el="right-card">
-              <h3 class="card-title">Harnesses</h3>
-              <p class="card-tag">Pre-wired &amp; ready</p>
-              <ul class="bullets">
-                <li data-el="bullet">Claude Code, Cursor</li>
-                <li data-el="bullet">Pre-wired execution loop</li>
-                <li data-el="bullet">Targets user goals directly</li>
-                <li data-el="bullet">Industry is converging here</li>
+            <div data-hf-id="hf-ebo3" class="card card-emerald" data-el="right-card">
+              <h3 data-hf-id="hf-gcpt" class="card-title">Harnesses</h3>
+              <p data-hf-id="hf-gs64" class="card-tag">Pre-wired &amp; ready</p>
+              <ul data-hf-id="hf-tok5" class="bullets">
+                <li data-hf-id="hf-dil5" data-el="bullet">Claude Code, Cursor</li>
+                <li data-hf-id="hf-79gp" data-el="bullet">Pre-wired execution loop</li>
+                <li data-hf-id="hf-itmt" data-el="bullet">Targets user goals directly</li>
+                <li data-hf-id="hf-0o16" data-el="bullet">Industry is converging here</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-emerald" data-el="callout">
+          <div data-hf-id="hf-0v8u" class="callout callout-emerald" data-el="callout">
             Frameworks give you parts. Harnesses give you a working agent.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-q098" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-mvui" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 3 — The Execution Loop
            start 76 · dur 40 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-3"
-        class="clip"
-        data-start="76"
-        data-duration="40"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-bat6" id="clip-3" class="clip" data-start="76" data-duration="40" data-track-index="1">
+        <div data-hf-id="hf-mp1c" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-23ev" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-ynfv" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 03</span>
-          <h1 class="title">The Execution Loop</h1>
-          <p class="subtitle">The heartbeat of every agent harness</p>
+        <div data-hf-id="hf-mthd" class="scene-content">
+          <span data-hf-id="hf-qhh5" class="badge badge-cyan" data-el="badge">SECTION 03</span>
+          <h1 data-hf-id="hf-6pal" class="title">The Execution Loop</h1>
+          <p data-hf-id="hf-hz45" class="subtitle">The heartbeat of every agent harness</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan card-diagram" data-el="left-card">
-              <h3 class="card-title">The While Loop</h3>
-              <div class="flow-nodes" data-el="flow">
-                <div class="flow-node" data-el="node">Initialize</div>
-                <div class="flow-node" data-el="node">Read Context</div>
-                <div class="flow-node" data-el="node">Call LLM</div>
-                <div class="flow-node" data-el="node">Evaluate Output</div>
-                <div class="flow-node flow-branch" data-el="node">Branch</div>
+          <div data-hf-id="hf-6qa7" class="cards-row">
+            <div data-hf-id="hf-cx99" class="card card-cyan card-diagram" data-el="left-card">
+              <h3 data-hf-id="hf-n2kb" class="card-title">The While Loop</h3>
+              <div data-hf-id="hf-jqkf" class="flow-nodes" data-el="flow">
+                <div data-hf-id="hf-huse" class="flow-node" data-el="node">Initialize</div>
+                <div data-hf-id="hf-0m53" class="flow-node" data-el="node">Read Context</div>
+                <div data-hf-id="hf-h9xj" class="flow-node" data-el="node">Call LLM</div>
+                <div data-hf-id="hf-qvt4" class="flow-node" data-el="node">Evaluate Output</div>
+                <div data-hf-id="hf-egwz" class="flow-node flow-branch" data-el="node">Branch</div>
               </div>
-              <p class="flow-caption">No tool calls → final answer · tool calls → execute → observe → loop</p>
+              <p data-hf-id="hf-2kr1" class="flow-caption">No tool calls → final answer · tool calls → execute → observe → loop</p>
             </div>
-            <div class="card card-purple" data-el="right-card">
-              <h3 class="card-title">Two Exit Conditions</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Clean exit: model returns final answer</li>
-                <li data-el="bullet">Hard stop: max iterations exceeded</li>
-                <li data-el="bullet">Each turn appends tool observations</li>
-                <li data-el="bullet">Bounded by a max iteration counter</li>
+            <div data-hf-id="hf-be5r" class="card card-purple" data-el="right-card">
+              <h3 data-hf-id="hf-z02d" class="card-title">Two Exit Conditions</h3>
+              <ul data-hf-id="hf-wgpc" class="bullets">
+                <li data-hf-id="hf-xeo5" data-el="bullet">Clean exit: model returns final answer</li>
+                <li data-hf-id="hf-ctmk" data-el="bullet">Hard stop: max iterations exceeded</li>
+                <li data-hf-id="hf-3yy8" data-el="bullet">Each turn appends tool observations</li>
+                <li data-hf-id="hf-npyw" data-el="bullet">Bounded by a max iteration counter</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-cyan" data-el="callout">
+          <div data-hf-id="hf-reag" class="callout callout-cyan" data-el="callout">
             Read → Call → Inspect → Act → Repeat. Two ways out.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-otc5" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-na5j" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 4 — Context Management & Compaction
            start 116 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-4"
-        class="clip"
-        data-start="116"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-n221" id="clip-4" class="clip" data-start="116" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-maqb" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-1p3u" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-z1qw" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 04</span>
-          <h1 class="title title-md">Context Management &amp; Compaction</h1>
-          <p class="subtitle">Keeping the agent's memory manageable</p>
+        <div data-hf-id="hf-n7se" class="scene-content">
+          <span data-hf-id="hf-q364" class="badge badge-cyan" data-el="badge">SECTION 04</span>
+          <h1 data-hf-id="hf-c569" class="title title-md">Context Management &amp; Compaction</h1>
+          <p data-hf-id="hf-5mr0" class="subtitle">Keeping the agent's memory manageable</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan card-diagram" data-el="left-card">
-              <h3 class="card-title">Compaction Flow</h3>
-              <div class="flow-nodes" data-el="flow">
-                <div class="flow-node" data-el="node">Count Tokens</div>
-                <div class="flow-node flow-hex" data-el="node">Threshold?</div>
-                <div class="flow-node" data-el="node">Trigger Compaction</div>
-                <div class="flow-node flow-fan" data-el="node">Prefix / Recent / Summarize</div>
-                <div class="flow-node" data-el="node">Reassemble</div>
+          <div data-hf-id="hf-74l8" class="cards-row">
+            <div data-hf-id="hf-uoa9" class="card card-cyan card-diagram" data-el="left-card">
+              <h3 data-hf-id="hf-pw2i" class="card-title">Compaction Flow</h3>
+              <div data-hf-id="hf-0k73" class="flow-nodes" data-el="flow">
+                <div data-hf-id="hf-gmur" class="flow-node" data-el="node">Count Tokens</div>
+                <div data-hf-id="hf-y0nu" class="flow-node flow-hex" data-el="node">Threshold?</div>
+                <div data-hf-id="hf-4zld" class="flow-node" data-el="node">Trigger Compaction</div>
+                <div data-hf-id="hf-kvpa" class="flow-node flow-fan" data-el="node">Prefix / Recent / Summarize</div>
+                <div data-hf-id="hf-0xsd" class="flow-node" data-el="node">Reassemble</div>
               </div>
             </div>
-            <div class="card card-emerald" data-el="right-card">
-              <h3 class="card-title">What Gets Preserved</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Prefix (system prompt + goal): verbatim</li>
-                <li data-el="bullet">Recent turns: kept as working memory</li>
-                <li data-el="bullet">Middle history: compressed into summary</li>
-                <li data-el="bullet">Reassembled into a smaller message list</li>
+            <div data-hf-id="hf-fmcz" class="card card-emerald" data-el="right-card">
+              <h3 data-hf-id="hf-h8dq" class="card-title">What Gets Preserved</h3>
+              <ul data-hf-id="hf-w2eb" class="bullets">
+                <li data-hf-id="hf-s752" data-el="bullet">Prefix (system prompt + goal): verbatim</li>
+                <li data-hf-id="hf-q32n" data-el="bullet">Recent turns: kept as working memory</li>
+                <li data-hf-id="hf-3buo" data-el="bullet">Middle history: compressed into summary</li>
+                <li data-hf-id="hf-gsyl" data-el="bullet">Reassembled into a smaller message list</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-amber" data-el="callout">
+          <div data-hf-id="hf-8gn4" class="callout callout-amber" data-el="callout">
             Compaction = save the ends, summarize the middle.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-p7n6" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-nogk" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 5 — Tools, Skills & Permission Gating
            start 154 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-5"
-        class="clip"
-        data-start="154"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-wymu" id="clip-5" class="clip" data-start="154" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-kb76" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-1ast" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-w9lp" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 05</span>
-          <h1 class="title title-md">Tools, Skills &amp; Permission Gating</h1>
-          <p class="subtitle">How the harness controls what tools may run</p>
+        <div data-hf-id="hf-m0vb" class="scene-content">
+          <span data-hf-id="hf-pov3" class="badge badge-cyan" data-el="badge">SECTION 05</span>
+          <h1 data-hf-id="hf-2682" class="title title-md">Tools, Skills &amp; Permission Gating</h1>
+          <p data-hf-id="hf-zwtv" class="subtitle">How the harness controls what tools may run</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan" data-el="left-card">
-              <h3 class="card-title">Tool Registry</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Tools registered by name + metadata</li>
-                <li data-el="bullet">LLM addresses tools by name only</li>
-                <li data-el="bullet">Registry decouples definition from execution</li>
-                <li data-el="bullet">Examples: view_file, write_file, run_bash</li>
+          <div data-hf-id="hf-7iw9" class="cards-row">
+            <div data-hf-id="hf-o1ib" class="card card-cyan" data-el="left-card">
+              <h3 data-hf-id="hf-6zdc" class="card-title">Tool Registry</h3>
+              <ul data-hf-id="hf-vo3a" class="bullets">
+                <li data-hf-id="hf-5jyd" data-el="bullet">Tools registered by name + metadata</li>
+                <li data-hf-id="hf-7ph6" data-el="bullet">LLM addresses tools by name only</li>
+                <li data-hf-id="hf-aitm" data-el="bullet">Registry decouples definition from execution</li>
+                <li data-hf-id="hf-2uwt" data-el="bullet">Examples: view_file, write_file, run_bash</li>
               </ul>
             </div>
-            <div class="card card-ruby" data-el="right-card">
-              <h3 class="card-title">Permission Tiers</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Read-only: view files, search</li>
-                <li data-el="bullet">Workspace: write within project dir</li>
-                <li data-el="bullet">Full: any command, any path</li>
-                <li data-el="bullet">Intercept before execute — never run blindly</li>
+            <div data-hf-id="hf-iojl" class="card card-ruby" data-el="right-card">
+              <h3 data-hf-id="hf-fwl5" class="card-title">Permission Tiers</h3>
+              <ul data-hf-id="hf-v9s9" class="bullets">
+                <li data-hf-id="hf-c145" data-el="bullet">Read-only: view files, search</li>
+                <li data-hf-id="hf-ll4f" data-el="bullet">Workspace: write within project dir</li>
+                <li data-hf-id="hf-d0gz" data-el="bullet">Full: any command, any path</li>
+                <li data-hf-id="hf-ugo1" data-el="bullet">Intercept before execute — never run blindly</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-ruby" data-el="callout">
+          <div data-hf-id="hf-xitf" class="callout callout-ruby" data-el="callout">
             The harness intercepts every tool call before it runs.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-r76b" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-o2rl" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 6 — Sub-Agent Delegation
            start 192 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-6"
-        class="clip"
-        data-start="192"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-lsyn" id="clip-6" class="clip" data-start="192" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-jww5" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-42y0" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-wnwq" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 06</span>
-          <h1 class="title">Sub-Agent Delegation</h1>
-          <p class="subtitle subtitle-sm">Spawning specialist agents for exploration and verification</p>
+        <div data-hf-id="hf-mf6c" class="scene-content">
+          <span data-hf-id="hf-pak2" class="badge badge-cyan" data-el="badge">SECTION 06</span>
+          <h1 data-hf-id="hf-gs80" class="title">Sub-Agent Delegation</h1>
+          <p data-hf-id="hf-8ijg" class="subtitle subtitle-sm">Spawning specialist agents for exploration and verification</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan" data-el="left-card">
-              <h3 class="card-title">Explorer Sub-Agent</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Spawned with isolated session</li>
-                <li data-el="bullet">Restricted tools (search, read)</li>
-                <li data-el="bullet">Runs search turns</li>
-                <li data-el="bullet">Returns findings summary, not raw logs</li>
+          <div data-hf-id="hf-7x7a" class="cards-row">
+            <div data-hf-id="hf-nn7a" class="card card-cyan" data-el="left-card">
+              <h3 data-hf-id="hf-g6wy" class="card-title">Explorer Sub-Agent</h3>
+              <ul data-hf-id="hf-rp10" class="bullets">
+                <li data-hf-id="hf-3421" data-el="bullet">Spawned with isolated session</li>
+                <li data-hf-id="hf-ocq1" data-el="bullet">Restricted tools (search, read)</li>
+                <li data-hf-id="hf-d6ei" data-el="bullet">Runs search turns</li>
+                <li data-hf-id="hf-2k85" data-el="bullet">Returns findings summary, not raw logs</li>
               </ul>
             </div>
-            <div class="card card-emerald" data-el="right-card">
-              <h3 class="card-title">Verifier Sub-Agent</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Separate isolated session</li>
-                <li data-el="bullet">Restricted to pytest only</li>
-                <li data-el="bullet">Runs the test suite</li>
-                <li data-el="bullet">Returns pass/fail result to parent</li>
+            <div data-hf-id="hf-f81y" class="card card-emerald" data-el="right-card">
+              <h3 data-hf-id="hf-zvoj" class="card-title">Verifier Sub-Agent</h3>
+              <ul data-hf-id="hf-rapz" class="bullets">
+                <li data-hf-id="hf-kfp8" data-el="bullet">Separate isolated session</li>
+                <li data-hf-id="hf-uool" data-el="bullet">Restricted to pytest only</li>
+                <li data-hf-id="hf-buzb" data-el="bullet">Runs the test suite</li>
+                <li data-hf-id="hf-qcex" data-el="bullet">Returns pass/fail result to parent</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-purple" data-el="callout">
+          <div data-hf-id="hf-g9ca" class="callout callout-purple" data-el="callout">
             Sub-agents return summaries, not raw logs — protecting the parent's context.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-rlhc" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-oh2m" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 7 — Session Persistence & Prompt Assembly
            start 230 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-7"
-        class="clip"
-        data-start="230"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-cyan" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-slrz" id="clip-7" class="clip" data-start="230" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-l3t8" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-3omz" class="glow glow-cyan" aria-hidden="true"></div>
+        <div data-hf-id="hf-x27r" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 07</span>
-          <h1 class="title title-sm">Session Persistence &amp; Prompt Assembly</h1>
-          <p class="subtitle">How agents remember and rebuild context</p>
+        <div data-hf-id="hf-l899" class="scene-content">
+          <span data-hf-id="hf-ow91" class="badge badge-cyan" data-el="badge">SECTION 07</span>
+          <h1 data-hf-id="hf-8rt2" class="title title-sm">Session Persistence &amp; Prompt Assembly</h1>
+          <p data-hf-id="hf-ztsb" class="subtitle">How agents remember and rebuild context</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan" data-el="left-card">
-              <h3 class="card-title">Event Log (JSONL)</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Every turn recorded as a discrete event</li>
-                <li data-el="bullet">USER_INPUT → MODEL_CALL → TOOL_RESULT</li>
-                <li data-el="bullet">Append-only JSONL stream</li>
-                <li data-el="bullet">Compaction events flushed to disk</li>
+          <div data-hf-id="hf-8bib" class="cards-row">
+            <div data-hf-id="hf-n8w9" class="card card-cyan" data-el="left-card">
+              <h3 data-hf-id="hf-nya2" class="card-title">Event Log (JSONL)</h3>
+              <ul data-hf-id="hf-dj0t" class="bullets">
+                <li data-hf-id="hf-8u28" data-el="bullet">Every turn recorded as a discrete event</li>
+                <li data-hf-id="hf-w2cs" data-el="bullet">USER_INPUT → MODEL_CALL → TOOL_RESULT</li>
+                <li data-hf-id="hf-emx5" data-el="bullet">Append-only JSONL stream</li>
+                <li data-hf-id="hf-suqj" data-el="bullet">Compaction events flushed to disk</li>
               </ul>
             </div>
-            <div class="card card-purple" data-el="right-card">
-              <h3 class="card-title">Three-Layer Prompt Rebuild</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Layer 1: Static base harness instructions</li>
-                <li data-el="bullet">Layer 2: Injected AGENTS.md config</li>
-                <li data-el="bullet">Layer 3: Replayed compacted history</li>
-                <li data-el="bullet">Assembled fresh every turn</li>
+            <div data-hf-id="hf-azuq" class="card card-purple" data-el="right-card">
+              <h3 data-hf-id="hf-6mca" class="card-title">Three-Layer Prompt Rebuild</h3>
+              <ul data-hf-id="hf-dxbu" class="bullets">
+                <li data-hf-id="hf-h2dw" data-el="bullet">Layer 1: Static base harness instructions</li>
+                <li data-hf-id="hf-xby2" data-el="bullet">Layer 2: Injected AGENTS.md config</li>
+                <li data-hf-id="hf-71g0" data-el="bullet">Layer 3: Replayed compacted history</li>
+                <li data-hf-id="hf-ye0q" data-el="bullet">Assembled fresh every turn</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-cyan" data-el="callout">
+          <div data-hf-id="hf-76zu" class="callout callout-cyan" data-el="callout">
             Log everything. Rebuild the prompt from three layers each turn.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-qek9" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-ovdn" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 8 — Hooks, Permissions & Safety
            start 268 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-8"
-        class="clip"
-        data-start="268"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-amber" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-gmg5" id="clip-8" class="clip" data-start="268" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-kpi7" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-ht7v" class="glow glow-amber" aria-hidden="true"></div>
+        <div data-hf-id="hf-xgis" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 08</span>
-          <h1 class="title title-md-sm">Hooks, Permissions &amp; Safety</h1>
-          <p class="subtitle">The multi-stage safety pipeline</p>
+        <div data-hf-id="hf-lmka" class="scene-content">
+          <span data-hf-id="hf-ohy0" class="badge badge-cyan" data-el="badge">SECTION 08</span>
+          <h1 data-hf-id="hf-359j" class="title title-md-sm">Hooks, Permissions &amp; Safety</h1>
+          <p data-hf-id="hf-nyk0" class="subtitle">The multi-stage safety pipeline</p>
 
-          <div class="cards-row">
-            <div class="card card-amber" data-el="left-card">
-              <h3 class="card-title">Pre-Tool Hooks</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Intercept before execution</li>
-                <li data-el="bullet">Allow → run the tool</li>
-                <li data-el="bullet">Deny → block with error</li>
-                <li data-el="bullet">Modify → rewrite the command</li>
+          <div data-hf-id="hf-8ptc" class="cards-row">
+            <div data-hf-id="hf-o7o9" class="card card-amber" data-el="left-card">
+              <h3 data-hf-id="hf-n249" class="card-title">Pre-Tool Hooks</h3>
+              <ul data-hf-id="hf-ebmv" class="bullets">
+                <li data-hf-id="hf-ac6z" data-el="bullet">Intercept before execution</li>
+                <li data-hf-id="hf-40xt" data-el="bullet">Allow → run the tool</li>
+                <li data-hf-id="hf-q8r9" data-el="bullet">Deny → block with error</li>
+                <li data-hf-id="hf-24i2" data-el="bullet">Modify → rewrite the command</li>
               </ul>
             </div>
-            <div class="card card-ruby" data-el="right-card">
-              <h3 class="card-title">Post-Tool &amp; Interactive Approval</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Post-tool hooks: audit every result</li>
-                <li data-el="bullet">Destructive commands escalate to user</li>
-                <li data-el="bullet">Interactive approval prompt: approve or deny</li>
-                <li data-el="bullet">Audit log injected back into context</li>
+            <div data-hf-id="hf-pmtx" class="card card-ruby" data-el="right-card">
+              <h3 data-hf-id="hf-ed73" class="card-title">Post-Tool &amp; Interactive Approval</h3>
+              <ul data-hf-id="hf-epxw" class="bullets">
+                <li data-hf-id="hf-v8b4" data-el="bullet">Post-tool hooks: audit every result</li>
+                <li data-hf-id="hf-ghwi" data-el="bullet">Destructive commands escalate to user</li>
+                <li data-hf-id="hf-1dw3" data-el="bullet">Interactive approval prompt: approve or deny</li>
+                <li data-hf-id="hf-lk07" data-el="bullet">Audit log injected back into context</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-ruby" data-el="callout">
+          <div data-hf-id="hf-utsy" class="callout callout-ruby" data-el="callout">
             Never execute directly — traverse the safety pipeline first.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-qsva" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-p9oo" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 9 — Research Insights
            start 306 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-9"
-        class="clip"
-        data-start="306"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-purple" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-imfb" id="clip-9" class="clip" data-start="306" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-ipz2" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-jvj8" class="glow glow-purple" aria-hidden="true"></div>
+        <div data-hf-id="hf-11a1" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 09</span>
-          <h1 class="title">Research Insights</h1>
-          <p class="subtitle subtitle-sm">What Tsinghua's NLAH study tells us about harness design</p>
+        <div data-hf-id="hf-qsjn" class="scene-content">
+          <span data-hf-id="hf-o3mz" class="badge badge-cyan" data-el="badge">SECTION 09</span>
+          <h1 data-hf-id="hf-8lpq" class="title">Research Insights</h1>
+          <p data-hf-id="hf-93y0" class="subtitle subtitle-sm">What Tsinghua's NLAH study tells us about harness design</p>
 
-          <div class="cards-row">
-            <div class="card card-cyan" data-el="left-card">
-              <h3 class="card-title">Module Ablation Results</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Self-Evolution Attempt Loop: +4.8 SWE-bench ✓</li>
-                <li data-el="bullet">Evaluation Verifiers: −0.8 SWE-bench ✗</li>
-                <li data-el="bullet">Multi-Candidate Search: −2.4 SWE-bench ✗</li>
-                <li data-el="bullet">Only Self-Evolution consistently helps</li>
+          <div data-hf-id="hf-2r7x" class="cards-row">
+            <div data-hf-id="hf-mul8" class="card card-cyan" data-el="left-card">
+              <h3 data-hf-id="hf-k0ex" class="card-title">Module Ablation Results</h3>
+              <ul data-hf-id="hf-f48x" class="bullets">
+                <li data-hf-id="hf-vrt3" data-el="bullet">Self-Evolution Attempt Loop: +4.8 SWE-bench ✓</li>
+                <li data-hf-id="hf-x6q0" data-el="bullet">Evaluation Verifiers: −0.8 SWE-bench ✗</li>
+                <li data-hf-id="hf-lwfg" data-el="bullet">Multi-Candidate Search: −2.4 SWE-bench ✗</li>
+                <li data-hf-id="hf-6qmb" data-el="bullet">Only Self-Evolution consistently helps</li>
               </ul>
             </div>
-            <div class="card card-purple" data-el="right-card">
-              <h3 class="card-title">Harness Design Principle</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Narrowing attempt loop > broadening search</li>
-                <li data-el="bullet">Verifiers and search hurt performance</li>
-                <li data-el="bullet">Fold Self-Evolution into core rule</li>
-                <li data-el="bullet">Drop what doesn't help</li>
+            <div data-hf-id="hf-aljp" class="card card-purple" data-el="right-card">
+              <h3 data-hf-id="hf-ws7l" class="card-title">Harness Design Principle</h3>
+              <ul data-hf-id="hf-fijy" class="bullets">
+                <li data-hf-id="hf-lr2b" data-el="bullet">Narrowing attempt loop &gt; broadening search</li>
+                <li data-hf-id="hf-7jgt" data-el="bullet">Verifiers and search hurt performance</li>
+                <li data-hf-id="hf-vh8o" data-el="bullet">Fold Self-Evolution into core rule</li>
+                <li data-hf-id="hf-jieu" data-el="bullet">Drop what doesn't help</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-purple" data-el="callout">
+          <div data-hf-id="hf-tbq6" class="callout callout-purple" data-el="callout">
             Narrowing the attempt loop beats broadening the search space.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-mfhz" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-pnzp" data-el="progress"></span></div>
       </section>
 
       <!-- ────────────────────────────────────────────────────
            CLIP 10 — Minimal Python Harness Synthesis
            start 344 · dur 38 · track 1
       ──────────────────────────────────────────────────── -->
-      <section
-        id="clip-10"
-        class="clip"
-        data-start="344"
-        data-duration="38"
-        data-track-index="1"
-      >
-        <div class="scene-bg" aria-hidden="true"></div>
-        <div class="glow glow-emerald" aria-hidden="true"></div>
-        <div class="grid-overlay" aria-hidden="true"></div>
+      <section data-hf-id="hf-5xjb" id="clip-10" class="clip" data-start="344" data-duration="38" data-track-index="1">
+        <div data-hf-id="hf-ibo1" class="scene-bg" aria-hidden="true"></div>
+        <div data-hf-id="hf-3smq" class="glow glow-emerald" aria-hidden="true"></div>
+        <div data-hf-id="hf-1fl2" class="grid-overlay" aria-hidden="true"></div>
 
-        <div class="scene-content">
-          <span class="badge badge-cyan" data-el="badge">SECTION 10</span>
-          <h1 class="title">Minimal Python Harness</h1>
-          <p class="subtitle">Nine components, zero dependencies, one file</p>
+        <div data-hf-id="hf-r6uo" class="scene-content">
+          <span data-hf-id="hf-dkuh" class="badge badge-cyan" data-el="badge">SECTION 10</span>
+          <h1 data-hf-id="hf-4837" class="title">Minimal Python Harness</h1>
+          <p data-hf-id="hf-o7cu" class="subtitle">Nine components, zero dependencies, one file</p>
 
-          <div class="cards-row">
-            <div class="card card-gradient card-diagram" data-el="left-card">
-              <h3 class="card-title">The 9-Component Architecture</h3>
-              <div class="flow-nodes flow-2col" data-el="flow">
-                <div class="flow-node" data-el="node">1 · System Prompt Assembly</div>
-                <div class="flow-node" data-el="node">2 · Execution Loop</div>
-                <div class="flow-node" data-el="node">3 · Context Management</div>
-                <div class="flow-node" data-el="node">4 · Pre-Tool Hooks</div>
-                <div class="flow-node" data-el="node">5 · Permissions &amp; Safety</div>
-                <div class="flow-node" data-el="node">6 · Tool Registry</div>
-                <div class="flow-node" data-el="node">7 · Built-in Primitives</div>
-                <div class="flow-node" data-el="node">8 · Sub-Agent Management</div>
-                <div class="flow-node" data-el="node">9 · Session Persistence</div>
+          <div data-hf-id="hf-35iy" class="cards-row">
+            <div data-hf-id="hf-lj5a" class="card card-gradient card-diagram" data-el="left-card">
+              <h3 data-hf-id="hf-g31a" class="card-title">The 9-Component Architecture</h3>
+              <div data-hf-id="hf-lyo0" class="flow-nodes flow-2col" data-el="flow">
+                <div data-hf-id="hf-8z49" class="flow-node" data-el="node">1 · System Prompt Assembly</div>
+                <div data-hf-id="hf-0p8l" class="flow-node" data-el="node">2 · Execution Loop</div>
+                <div data-hf-id="hf-rq8m" class="flow-node" data-el="node">3 · Context Management</div>
+                <div data-hf-id="hf-09fd" class="flow-node" data-el="node">4 · Pre-Tool Hooks</div>
+                <div data-hf-id="hf-0jpy" class="flow-node" data-el="node">5 · Permissions &amp; Safety</div>
+                <div data-hf-id="hf-hcwa" class="flow-node" data-el="node">6 · Tool Registry</div>
+                <div data-hf-id="hf-cmp6" class="flow-node" data-el="node">7 · Built-in Primitives</div>
+                <div data-hf-id="hf-h61a" class="flow-node" data-el="node">8 · Sub-Agent Management</div>
+                <div data-hf-id="hf-1dg5" class="flow-node" data-el="node">9 · Session Persistence</div>
               </div>
             </div>
-            <div class="card card-emerald" data-el="right-card">
-              <h3 class="card-title">The Complete Checklist</h3>
-              <ul class="bullets">
-                <li data-el="bullet">Zero external dependencies</li>
-                <li data-el="bullet">Pure Python standard library</li>
-                <li data-el="bullet">One file: minimal_harness.py</li>
-                <li data-el="bullet">A complete, working agent harness</li>
+            <div data-hf-id="hf-etqx" class="card card-emerald" data-el="right-card">
+              <h3 data-hf-id="hf-vzex" class="card-title">The Complete Checklist</h3>
+              <ul data-hf-id="hf-fwuz" class="bullets">
+                <li data-hf-id="hf-lmtq" data-el="bullet">Zero external dependencies</li>
+                <li data-hf-id="hf-i1ky" data-el="bullet">Pure Python standard library</li>
+                <li data-hf-id="hf-puk1" data-el="bullet">One file: minimal_harness.py</li>
+                <li data-hf-id="hf-93g0" data-el="bullet">A complete, working agent harness</li>
               </ul>
             </div>
           </div>
 
-          <div class="callout callout-emerald" data-el="callout">
+          <div data-hf-id="hf-ild5" class="callout callout-emerald" data-el="callout">
             Nine components. Zero dependencies. One file. That's a harness.
           </div>
         </div>
-        <div class="progress-bar" aria-hidden="true"><span data-el="progress"></span></div>
+        <div data-hf-id="hf-mtt0" class="progress-bar" aria-hidden="true"><span data-hf-id="hf-q2aq" data-el="progress"></span></div>
       </section>
     </div>
 
