@@ -1,0 +1,26 @@
+# Secrets — never commit
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# macOS
+.DS_Store
+
+# Renders
+out*.mp4
+*.mp4
+!harness-engineering/**/*.mp4
+hyperframes/renders/
+hyperframes/.thumbnails/
+
+# HyperFrames
+.hyperframes/

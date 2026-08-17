@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 7: Persistence & Prompt Assembly</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Demonstrates Persistence (JSONL) and System Prompt Assembly rules.
+--- Highlights KV-cache prefix optimization.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --cache-green: #10b981;
+  --prompt-purple: #8b5cf6;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+.persistence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+}
+
+#card-persistence { animation: fadeIn 0.5s ease-out 0.6s forwards; border-top: 4px solid var(--cache-green); }
+#card-prompts { animation: fadeIn 0.5s ease-out 1.0s forwards; border-top: 4px solid var(--prompt-purple); }
+
+.card-title { font-size: 16px; font-weight: 700; }
+.stack { display: flex; flex-direction: column; gap: 8px; font-family: monospace; font-size: 12px; }
+
+.layer { padding: 10px; border-radius: 6px; }
+.layer-static { background: #064e3b; color: #a7f3d0; border: 1px solid #10b981; }
+.layer-dynamic { background: #4c1d95; color: #c4b5fd; border: 1px solid #8b5cf6; }
+
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.0s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+  z-index: 10;
+}
+
+#callout-cache-box {
+  top: 135px;
+  left: 675px;
+  width: 580px;
+  height: 440px;
+}
+
+#callout-cache-bubble {
+  top: 90px;
+  left: 780px;
+}
+#callout-cache-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-7/persistence-and-prompts</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 7: Component 6 & 7 — Persistence & Prompt Assembly</h1>
+      <p>Append-only JSONL crash logs & static-first prompt caching order.</p>
+    </div>
+
+    <div class="persistence-grid">
+      
+      <!-- Persistence Card -->
+      <div class="card" id="card-persistence">
+        <div class="card-title" style="color: var(--cache-green);">💾 Component 6: JSONL Persistence</div>
+        <div style="font-size: 13px; color: var(--text-muted);">Flushes events immediately to disk for instant replay.</div>
+        <div class="stack">
+          <div style="background: #161b22; padding: 8px; border-radius: 4px; color: #a7f3d0;">{"type":"USER_INPUT","payload":...}</div>
+          <div style="background: #161b22; padding: 8px; border-radius: 4px; color: #a7f3d0;">{"type":"TOOL_RESULT","payload":...}</div>
+        </div>
+      </div>
+
+      <!-- Prompts Card -->
+      <div class="card" id="card-prompts">
+        <div class="card-title" style="color: var(--prompt-purple);">📑 Component 7: System Prompt Assembly</div>
+        <div class="stack">
+          <div class="layer layer-static">1. Base Instructions & Tools (Static First - Cached)</div>
+          <div class="layer layer-dynamic">2. Injected AGENTS.md / CLAUDE.md (Dynamic Second)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-cache-box"></div>
+    <div class="callout-bubble" id="callout-cache-bubble">
+      ⚡ Static content MUST come first for KV-cache hits!
+    </div>
+
+  </div>
+
+</body>
+</html>

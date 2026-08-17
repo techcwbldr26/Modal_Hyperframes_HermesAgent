@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 4: Component 2 — Context Management</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Demonstrates Context Management & Compaction logic.
+--- Keyframe sequence shows uncompacted memory vs compacted memory buffer.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+.compaction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.memory-panel {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+}
+
+#panel-before { animation: fadeIn 0.5s ease-out 0.6s forwards; }
+#panel-after { animation: fadeIn 0.5s ease-out 1.2s forwards; border-top: 4px solid var(--accent-emerald); }
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panel-title { font-weight: 700; font-size: 16px; }
+.badge-warning { background: #78350f; color: #fde68a; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.badge-success { background: #064e3b; color: #a7f3d0; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+
+.block-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mem-block {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: monospace;
+}
+.block-system { background: #1e1b4b; color: #818cf8; border: 1px solid #4338ca; }
+.block-raw { background: #374151; color: #d1d5db; border: 1px dashed #6b7280; }
+.block-summary { background: #831843; color: #f472b6; border: 1px solid #ec4899; font-weight: bold; }
+.block-recent { background: #064e3b; color: #34d399; border: 1px solid #10b981; }
+
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.4s forwards;
+  z-index: 10;
+}
+
+#callout-trap-box {
+  top: 135px;
+  left: 675px;
+  width: 580px;
+  height: 440px;
+}
+
+#callout-trap-bubble {
+  top: 90px;
+  left: 780px;
+}
+#callout-trap-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-4/context-compaction</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 4: Component 2 — Context Management & Compaction</h1>
+      <p>Keep system prompt + recent turns; summarize middle history to prevent silent memory crashes.</p>
+    </div>
+
+    <div class="compaction-grid">
+      
+      <!-- Before Panel -->
+      <div class="memory-panel" id="panel-before">
+        <div class="panel-header">
+          <span class="panel-title">Before Compaction</span>
+          <span class="badge-warning">185k / 200k Tokens (92%)</span>
+        </div>
+        <div class="block-stack">
+          <div class="mem-block block-system">System Prompt & Goal (10k tokens)</div>
+          <div class="mem-block block-raw">Middle History: Turn 1-15 Raw Bash & File Logs (145k tokens)</div>
+          <div class="mem-block block-recent">Recent Working Memory: Turn 16-20 (30k tokens)</div>
+        </div>
+      </div>
+
+      <!-- After Panel -->
+      <div class="memory-panel" id="panel-after">
+        <div class="panel-header">
+          <span class="panel-title">After Compaction</span>
+          <span class="badge-success">42k / 200k Tokens (21%)</span>
+        </div>
+        <div class="block-stack">
+          <div class="mem-block block-system">System Prompt & Goal (10k tokens - Cached)</div>
+          <div class="mem-block block-summary">[SUMMARY]: Condensed Turn 1-15 key state (2k tokens)</div>
+          <div class="mem-block block-recent">Recent Working Memory: Turn 16-20 (30k tokens)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-trap-box"></div>
+    <div class="callout-bubble" id="callout-trap-bubble">
+      ⚠️ Poor compaction drops details & silently breaks memory!
+    </div>
+
+  </div>
+
+</body>
+</html>

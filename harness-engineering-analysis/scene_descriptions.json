@@ -1,0 +1,429 @@
+[
+  {
+    "title": "Minimal Python Agent Harness Architecture",
+    "section_number": 10,
+    "components": [
+      "1. System Prompt Assembly (Static First + AGENTS.md)",
+      "2. The Execution Loop (while iteration < max)",
+      "3. Context Management (Compacting > 150k Tokens)",
+      "4. Pre-Tool Hooks (Allow / Deny / Modify)",
+      "5. Permissions & Safety (Read-Only / Workspace / Full)",
+      "6. Tool Registry Dispatch",
+      "7. Built-in Primitives (view_file, write_file, run_bash)",
+      "8. Sub-Agent Management (Spawn, Restrict, Collect)",
+      "9. Session Persistence (Append-only JSONL Stream)"
+    ],
+    "relationships": [
+      "System Prompt Assembly (1) flows into the Execution Loop (2) as the entry point",
+      "The Execution Loop (2) branches out to Context Management (3), Pre-Tool Hooks (4), and Session Persistence (9)",
+      "Pre-Tool Hooks (4) feed into Permissions & Safety (5), which then feed Tool Registry Dispatch (6)",
+      "Tool Registry Dispatch (6) branches into Built-in Primitives (7) and Sub-Agent Management (8)"
+    ],
+    "visual_elements": [
+      "Outer container rectangle with a blue-to-magenta gradient border enclosing all nodes",
+      "White rounded boxes each outlined with the same blue-to-pink gradient and a soft drop shadow",
+      "Bold black directional arrows showing a top-down tree/flow structure",
+      "Two visible branching points (one 3-way at the loop, one 2-way at dispatch)",
+      "Light near-white background with centered dark sans-serif labels inside each box"
+    ],
+    "key_points": [
+      "The harness is a layered pipeline: prompt setup drives a bounded while-loop that gates every tool call",
+      "Safety is two-staged \u2014 pre-tool hooks (allow/deny/modify) precede a permission level (read-only/workspace/full)",
+      "Tool dispatch splits work into local primitives versus spawned sub-agents, separating single-step actions from delegated tasks",
+      "Context management and session persistence act as side channels that run alongside the main dispatch path",
+      "Numbering the nine boxes gives learners a concrete checklist for building a minimal agent from scratch"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-10 Minimal Python Agent.png"
+  },
+  {
+    "title": "Harness Execution Loop Process",
+    "section_number": 3,
+    "components": [
+      "Initialize Session (Load System Prompt & Goal)",
+      "Read Context (Assemble Messages Array)",
+      "Call LLM (Inference Request)",
+      "Evaluate Output (Inspect Completion)",
+      "Final Answer (No Tool Calls Text Response)",
+      "Execute Tool (Tool Calls Present)",
+      "Append Observation (Capture Output/Errors)",
+      "Increment Turn (Increment Iteration Counter)",
+      "Check Iteration Limit (Iteration == Max)",
+      "Max Limit Exceeded (Exception Raised)",
+      "Task Complete (End of process)"
+    ],
+    "relationships": [
+      "Initialize Session flows into Read Context, then Call LLM, then Evaluate Output",
+      "Evaluate Output branches: 'No Tool Calls' leads to Final Answer; 'Tool Calls' leads to Execute Tool",
+      "Execute Tool -> Append Observation -> Increment Turn -> Check Iteration Limit",
+      "Check Iteration Limit branches: 'Max Reached' leads to Max Limit Exceeded; 'Not Max' loops back to Read Context",
+      "Both Final Answer and Max Limit Exceeded converge into Task Complete"
+    ],
+    "visual_elements": [
+      "Blue rounded process boxes each containing a small icon and a two-line label",
+      "Two orange hexagonal decision nodes (Evaluate Output, Check Iteration Limit)",
+      "Branch labels in blue text on the arrows (No Tool Calls / Tool Calls / Max Reached / Not Max)",
+      "A long bottom feedback line that loops from Check Iteration Limit back to before Read Context",
+      "Two terminal exit paths converging on a single Task Complete node"
+    ],
+    "key_points": [
+      "The harness is fundamentally a loop: call the model, inspect the output, then either finish or run tools and repeat",
+      "There are exactly two exit conditions: a clean final answer (no tool calls) or a hard stop when the iteration limit is exceeded",
+      "Each iteration mutates state by appending tool observations to the message array and bumping a turn counter",
+      "Decision nodes (orange hexagons) gate the flow and are the only points where the path can diverge",
+      "Looping back to Read Context (not to Call LLM) ensures the freshly assembled context is what the next inference sees"
+    ],
+    "suggested_clip_length": 40,
+    "source_file": "sec-3-Harness Execution Loop Process.png"
+  },
+  {
+    "title": "Agent Harness Execution Loop",
+    "section_number": 3,
+    "components": [
+      "Initialize Agent",
+      "Iteration < Max? (decision)",
+      "Read & Call Model",
+      "Raise TimeoutError",
+      "Has Tool Calls? (decision)",
+      "Return Final Answer",
+      "Execute Tool Calls",
+      "Observe Results"
+    ],
+    "relationships": [
+      "Initialize Agent flows into the Iteration < Max? decision",
+      "Iteration < Max? --Yes--> Read & Call Model",
+      "Iteration < Max? --No--> Raise TimeoutError (loop termination on limit)",
+      "Read & Call Model flows into the Has Tool Calls? decision",
+      "Has Tool Calls? --No--> Return Final Answer (happy-path exit)",
+      "Has Tool Calls? --Yes--> Execute Tool Calls",
+      "Execute Tool Calls flows into Observe Results",
+      "Observe Results loops back up the right edge to re-enter the Iteration < Max? check"
+    ],
+    "visual_elements": [
+      "Light-blue rounded rectangles for action/terminal steps",
+      "Orange diamond shapes for the two decision points (Iteration < Max? and Has Tool Calls?)",
+      "Dark directional arrows with Yes/No branch labels at each fork",
+      "A long right-side loop-back line from Observe Results returning to the top of the iteration check",
+      "Bold centered title 'Agent Harness Execution Loop' above the diagram"
+    ],
+    "key_points": [
+      "The harness runs a bounded loop, checking a max-iteration guard before each model call to prevent runaway agents; exceeding it raises a TimeoutError",
+      "Each cycle reads the prompt and calls the model, then inspects the response for requested tool calls",
+      "If the model emits no tool calls, the loop exits cleanly and the final answer is returned to the caller",
+      "If tool calls are present, they are executed and their outputs are observed, after which control returns to the iteration guard to continue the agentic cycle",
+      "The two diamonds encode the control flow: one guards termination, the other decides between finishing and acting"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-3-What is an agent harness The nine components of a great one.png"
+  },
+  {
+    "title": "Agent Harness Context Compaction Process",
+    "section_number": 4,
+    "components": [
+      "Count Tokens",
+      "Tokens < Threshold? (decision)",
+      "Return Messages",
+      "Trigger Compaction",
+      "Extract Prefix",
+      "Extract Recent",
+      "Summarize Middle",
+      "Reassemble",
+      "Return Compacted"
+    ],
+    "relationships": [
+      "Count Tokens flows into the Tokens < Threshold? decision node",
+      "Decision 'Yes' branch bypasses compaction and goes straight to Return Messages",
+      "Decision 'No' branch flows into Trigger Compaction",
+      "Trigger Compaction fans out in parallel to Extract Prefix, Extract Recent, and Summarize Middle",
+      "The three extraction/summarization steps fan back in to Reassemble",
+      "Reassemble flows into the final Return Compacted output"
+    ],
+    "visual_elements": [
+      "Orange hexagon for the threshold decision node contrasting with blue process nodes",
+      "Light-blue rounded rectangles each with a small line icon and a two-line caption",
+      "Labeled 'Yes' and 'No' edges emerging from the hexagon",
+      "A parallel fan-out then fan-in pattern around the three middle processing boxes",
+      "Left-to-right horizontal flow with a vertical branch for the three extraction steps"
+    ],
+    "key_points": [
+      "Compaction is conditional: it only runs when the token count exceeds the budget threshold, giving a cheap fast path otherwise",
+      "The prefix (system prompt plus initial user goal) is preserved verbatim to keep identity and intent intact",
+      "The most recent turns are kept as working memory so the agent retains immediate context",
+      "Only the older middle history is compressed into a summary, which is where the token savings come from",
+      "The preserved prefix, fresh summary, and recent turns are reassembled into a new, smaller message list that replaces the original"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-4-Agent Harness Compaction Process.png"
+  },
+  {
+    "title": "LLM History Compaction Process",
+    "section_number": 4,
+    "components": [
+      "Raw History",
+      "Token Count Threshold Check",
+      "LLM Summarize Middle Blocks",
+      "Compacted History"
+    ],
+    "relationships": [
+      "Raw History flows into the token threshold decision node",
+      "A 'Yes' branch (over 80% window) routes to LLM summarization of middle blocks",
+      "Summarization output flows into Compacted History",
+      "A 'No' branch loops from the decision node back to Raw History unchanged"
+    ],
+    "visual_elements": [
+      "Blue database icon card for Raw History",
+      "Orange hexagon decision node for the token threshold",
+      "Blue folder icon card for Compacted History",
+      "Yes/No labeled branch on the decision node",
+      "Curved No-loop arrow returning to the start node"
+    ],
+    "key_points": [
+      "Compaction triggers only when token usage exceeds 80% of the context window",
+      "Middle discussion and stack traces are distilled into a single summary block",
+      "Recent turns are kept verbatim and the system prompt cache is preserved",
+      "Sub-threshold histories skip summarization and continue unchanged via the No loop",
+      "Compaction restores the token budget without losing critical context"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-4-LLM History Compaction Process.png"
+  },
+  {
+    "title": "LLM Tool Execution with Permission Gating",
+    "section_number": 5,
+    "components": [
+      "LLM Inference Output (tool call request: run_command pytest)",
+      "Lookup Tool (name & metadata)",
+      "Check Permission Tiers (verify execution is permitted)",
+      "Built-in Shell (execute using subprocess.run)",
+      "Permission Denied Exception (raise error for unauthorized access)"
+    ],
+    "relationships": [
+      "LLM Inference Output flows into Lookup Tool",
+      "Lookup Tool feeds into the Check Permission Tiers decision node",
+      "Check Permission Tiers routes to Built-in Shell on the 'Allowed' branch",
+      "Check Permission Tiers routes to Permission Denied Exception on the 'Denied' branch"
+    ],
+    "visual_elements": [
+      "A central orange hexagon representing the permission gate / decision point",
+      "Light-blue rounded rectangles for each linear process step",
+      "A small icon inside every box (robot, database, shield, terminal, warning)",
+      "Branching arrows explicitly labeled 'Allowed' and 'Denied'",
+      "Color contrast between the orange gate and the blue pipeline steps"
+    ],
+    "key_points": [
+      "The harness intercepts the raw LLM tool-call before anything runs",
+      "Tool metadata must be resolved before a permission decision can be made",
+      "Permission tiers act as a security gate that splits execution into two paths",
+      "Approved calls run inside a controlled built-in shell via subprocess.run",
+      "Rejected calls short-circuit to a Permission Denied Exception instead of executing"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-5=LLM Tool Execution Flow.png"
+  },
+  {
+    "title": "Sub-Agent Exploration and Verification Workflow",
+    "section_number": 6,
+    "components": [
+      "Spawn Explorer",
+      "Create Explorer Session",
+      "Run Search Turns",
+      "Return Findings Summary",
+      "Spawn Verifier",
+      "Create Verifier Session",
+      "Run Test Suite",
+      "Return Verification Result"
+    ],
+    "relationships": [
+      "A single left-to-right timeline arrow connects all eight steps in sequence",
+      "Parent agent triggers both the explorer and verifier spawns as orchestration points",
+      "Each spawn is paired with an isolated sub-agent session created by the manager",
+      "Explorer session loops through search turns then returns a condensed summary back to the parent",
+      "Verifier session runs the test suite (pytest) and returns a pass/fail result to the parent",
+      "Layout alternates parent-side actions on the top row with sub-agent-side actions on the bottom row"
+    ],
+    "visual_elements": [
+      "Central horizontal timeline arrow with small circular node markers at each step",
+      "Two staggered rows of rounded rectangular cards (blue, green, yellow, red on top; cyan, green, orange, pink on bottom)",
+      "Simple line icons inside each card (agent nodes, search, folder, speech bubble, person, checkmark)",
+      "Color-coded heading labels with a two-line caption above each top card and below each bottom card",
+      "Clean white background with subtle drop shadows on the cards"
+    ],
+    "key_points": [
+      "Sub-agents run in isolated, fresh contexts so the parent's context window stays clean",
+      "Exploration and verification are split into separate specialized sub-agents rather than one monolithic run",
+      "Each sub-agent session is given restricted, role-appropriate tools (e.g. pytest only for the verifier)",
+      "Sub-agents return condensed summaries and pass/fail reports instead of raw logs, protecting parent context",
+      "The workflow is a strict sequential pipeline: explore, summarize, then verify, then report"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-6-Parent-Harness-Subagent-Workflow.png"
+  },
+  {
+    "title": "Session Persistence and Prompt Pipeline Architecture",
+    "section_number": 7,
+    "components": [
+      "Event 1: USER_INPUT",
+      "Event 2: MODEL_CALL",
+      "Event 3: TOOL_RESULT",
+      "Event 4: COMPACTION_EVENT",
+      "session_transcript.json (disk storage)",
+      "Base Harness Instructions",
+      "Injected AGENTS.md",
+      "Replayed History"
+    ],
+    "relationships": [
+      "Top lane: linear event flow USER_INPUT -> MODEL_CALL -> TOOL_RESULT -> COMPACTION_EVENT -> session_transcript.json",
+      "Bottom lane: linear prompt assembly Base Harness Instructions -> Injected AGENTS.md -> Replayed History",
+      "Two parallel horizontal lanes: an append-only event log (top) running alongside a context/prompt construction pipeline (bottom)",
+      "COMPACTION_EVENT terminates the top lane by flushing summarized events into the green database cylinder"
+    ],
+    "visual_elements": [
+      "Two parallel horizontal lanes of light-blue rounded rectangles connected by right-pointing arrows",
+      "A distinct green database cylinder (session_transcript.json) capping the right end of the top lane",
+      "A small monochrome icon embedded in the left of every box (terminal, gears, clock, layers, etc.)",
+      "Bold dark title centered above the diagram",
+      "Bold cyan step labels paired with smaller grey description text inside each box"
+    ],
+    "key_points": [
+      "The harness records each turn as a discrete, ordered event (user input, model call, tool result) forming a session log",
+      "A compaction step summarizes the event stream and persists it to session_transcript.json for durable storage",
+      "The prompt is rebuilt each turn from three layers: static base instructions, dynamically injected AGENTS.md config, and replayed compacted history",
+      "Event logging (top) and prompt assembly (bottom) are conceptually separate pipelines that the harness orchestrates together",
+      "Compacted history acts as working memory, keeping context bounded while preserving essential state across the session"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-7-Session Persistence and Prompt Pipeline Architecture.png"
+  },
+  {
+    "title": "Tool Execution Workflow",
+    "section_number": 8,
+    "components": [
+      "Tool Call Proposed",
+      "Dynamic Command Parser",
+      "Active Permission Tier",
+      "Interactive User Approval Prompt",
+      "Execution and Audit"
+    ],
+    "relationships": [
+      "Sequential left-to-right pipeline: each stage loops from its bottom edge up into the top of the next stage",
+      "Tool Call Proposed feeds a parsed command into the Dynamic Command Parser",
+      "Command Parser routes to the Active Permission Tier based on the detected command tier",
+      "Permission Tier either auto-grants (Full Access / Workspace Mode) or escalates to the Interactive User Approval Prompt",
+      "User approval gates the final Execution and Audit stage, which runs the subprocess and post-tool hooks before returning to context",
+      "Inside each card, vertical down-arrows show an ordered sub-sequence of steps"
+    ],
+    "visual_elements": [
+      "Five rounded color-coded cards (blue, green, red, pink, blue) laid out horizontally",
+      "A distinct line-art icon centered above each card title (terminal, code+search, shield, person+speech bubble, checkmark)",
+      "Circular bullet markers with internal down-arrows listing each stage's steps",
+      "A thin horizontal divider line beneath each card's title",
+      "Looping connector lines with arrowheads arcing from the bottom of one card to the top of the next"
+    ],
+    "key_points": [
+      "A proposed tool call is never executed directly; it traverses a multi-stage safety pipeline first",
+      "The parser classifies commands by tier (read-only vs full/destructive) to decide how much trust to require",
+      "Active permission tiers such as Workspace Mode can satisfy the gate without any user interaction",
+      "Destructive or unknown commands escalate to an interactive prompt where the user can approve or deny",
+      "Every approved run is wrapped in pre- and post-tool hooks and audit logging, and the result is injected back into the agent context"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-8-tool-execution-workflow.png"
+  },
+  {
+    "title": "Tsinghua NLAH Module Ablation Analysis",
+    "section_number": 9,
+    "components": [
+      "Tsinghua NLAH Module Ablation Results (left blue card)",
+      "Harness Design Principle (middle purple card)",
+      "Integration and Dependency Mapping (right blue card)"
+    ],
+    "relationships": [
+      "Top connector line runs from the left 'Ablation Results' card into the 'Harness Design Principle' card",
+      "Bottom connector line runs from the left 'Ablation Results' card into the 'Integration and Dependency Mapping' card",
+      "Inside the left card, vertical arrows chain the three bullets: Self-Evolution Attempt Loop -> Evaluation Verifiers -> Multi-Candidate Search"
+    ],
+    "visual_elements": [
+      "Three color-coded rounded cards (light blue, lavender, light blue) with thin outlines and header divider lines",
+      "Line-art header icons: bar/signal chart, stacked hexagons, and a connected node graph",
+      "Hollow-circle bullet markers next to each ablation row",
+      "Green check and red cross emoji flags marking 'CONSISTENTLY HELPS' vs 'HURTS PERFORMANCE'",
+      "Curved connector lines with arrowheads linking the left card to the two right cards"
+    ],
+    "key_points": [
+      "The Self-Evolution Attempt Loop is the only module that consistently improves both SWE-bench (+4.8) and OSWorld (+2.7)",
+      "Evaluation Verifiers (-0.8 / -8.4) and Multi-Candidate Search (-2.4 / -5.6) both hurt performance, so they are dropped",
+      "The distilled harness principle is 'Narrowing Attempt Loop > Broadening Search Space'",
+      "The integration rule is to fold Self-Evolution, Verifiers, and Search flow into a single Core Rule"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec-9-Tsinghua NLAH Module Ablation Analysis.png"
+  },
+  {
+    "title": "AI Agent System Architecture Overview",
+    "section_number": 1,
+    "components": [
+      "LLM Engine / Central Processing Unit",
+      "Loop & Execution Controller",
+      "Context Window",
+      "External DB / State Files",
+      "Tool Registry",
+      "Permissions & Hooks"
+    ],
+    "relationships": [
+      "No explicit arrows are drawn; the six boxes are presented as a flat horizontal peer row, so connections are conceptual rather than literal",
+      "Implied control flow: Loop & Execution Controller drives the LLM Engine and feeds its output back each turn",
+      "Implied data flow: Context Window holds the active prompt state that the LLM Engine reads and writes",
+      "Implied persistence: Context Window overflows to / is rehydrated from the External DB / State Files",
+      "Implied action path: LLM tool calls resolve through the Tool Registry and are gated by Permissions & Hooks before execution"
+    ],
+    "visual_elements": [
+      "Centered bold dark-gray heading 'AI Agent System Architecture' above a light off-white canvas",
+      "A single horizontal row of six evenly spaced shapes spanning the width of the frame",
+      "Most components rendered as light-blue rounded rectangles with cyan borders and blue label text",
+      "Context Window drawn as a left-flat blue cylinder and External DB / State Files as a green 3D database cylinder to distinguish memory types",
+      "Small gray 'Made with Napkin' watermark anchored in the bottom-right corner"
+    ],
+    "key_points": [
+      "The agent harness is the scaffolding around the model, not the model itself: the loop controller, context, tools and guardrails together form the harness",
+      "The context window is finite working memory, so external state files are required to persist and extend memory across turns and sessions",
+      "The Tool Registry decouples tool definitions from their execution, letting the LLM address tools by name",
+      "Permissions & Hooks act as an interception / safety layer that can approve, deny or modify any tool action before it runs",
+      "The Loop & Execution Controller is the engine room that orchestrates the read-prompt, call-LLM, dispatch-tool, append-result cycle"
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec1-AI Agent System Architecture.png"
+  },
+  {
+    "title": "Framework vs Harness Paradigms in AI",
+    "section_number": 2,
+    "components": [
+      "Manual Wiring",
+      "Custom App Pipeline",
+      "Building Blocks",
+      "Pre-Wired Engine",
+      "User Goal Execution",
+      "Integrated Loop"
+    ],
+    "relationships": [
+      "Manual Wiring maps to Pre-Wired Engine",
+      "Custom App Pipeline maps to User Goal Execution",
+      "Building Blocks maps to Integrated Loop",
+      "Left column (framework approach) transforms into right column (harness approach) via three horizontal arrows"
+    ],
+    "visual_elements": [
+      "Two parallel columns of rounded rectangle boxes: orange-bordered on the left, red-bordered on the right",
+      "Three horizontal gray arrows pointing left-to-right pairing each orange box with a red box",
+      "Small gray caption text beneath every box explaining its meaning",
+      "Centered bold dark title at the top on a near-white background",
+      "Subtle 'Made with Napkin' watermark in the bottom-right corner"
+    ],
+    "key_points": [
+      "The framework paradigm (left) demands manual assembly of chains, retrievers, and state nodes, while the harness paradigm (right) ships a pre-configured engine ready to run.",
+      "Frameworks push developers to build bespoke application pipelines from scratch; harnesses instead target concrete user goals such as fixing issues.",
+      "Framework thinking is built from individual components (chains, retrievers) as building blocks, whereas harness thinking provides a continuous read-act-observe integrated loop.",
+      "The side-by-side contrast reframes agent engineering from wiring primitives to orchestrating a goal-driven execution loop."
+    ],
+    "suggested_clip_length": 38,
+    "source_file": "sec2-Framework vs. Harness Paradigms in AI Development.png"
+  }
+]

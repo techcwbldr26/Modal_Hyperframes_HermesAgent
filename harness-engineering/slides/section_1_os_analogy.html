@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 1: What is an Agent Harness? (OS Analogy)</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- This animated slide demonstrates the "Agent = Model + Harness" formula & OS analogy.
+--- Timings are controlled via CSS animation-delay.
+--- Edit positioning using top/left/width/height in the target ID blocks below.
+--- Verified static layout coordinates against source reference diagrams.
+*/
+
+:root {
+  --bg-color: #0b0f19;
+  --panel-bg: #111827;
+  --border-color: #1f293d;
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Base Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Browser Chrome */
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* Main Container */
+.main-container {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 24px;
+  position: relative;
+}
+
+/* Header Banner */
+.header-banner {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.5s forwards;
+}
+.header-banner h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.header-banner p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Equation Bar */
+.equation-bar {
+  background: linear-gradient(90deg, #1e1b4b 0%, #0f172a 100%);
+  border: 1px solid #3730a3;
+  border-radius: 10px;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.9s forwards;
+}
+.eq-badge {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+.badge-agent { background: #312e81; color: #818cf8; border: 1px solid #6366f1; }
+.badge-model { background: #064e3b; color: #34d399; border: 1px solid #10b981; }
+.badge-harness { background: #831843; color: #f472b6; border: 1px solid #ec4899; }
+
+/* Grid Layout for Components */
+.architecture-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 1.3s forwards;
+}
+
+.card {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.title-model { color: var(--accent-green); }
+.title-harness { color: var(--accent-blue); }
+
+.os-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.os-mapping-table th, .os-mapping-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+.os-mapping-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.os-mapping-table td strong {
+  color: #60a5fa;
+  font-family: monospace;
+}
+
+/* Callout Highlights */
+.callout-border-box {
+  position: absolute;
+  border: 2.5px solid var(--accent-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 2.5s forwards, pulseRed 2s infinite 3.0s;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--accent-red);
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  opacity: 0;
+  z-index: 100;
+  animation: fadeIn 0.4s ease-out 2.7s forwards;
+}
+
+/* Positioning of Highlight overlay */
+#callout-highlight-box {
+  top: 245px;
+  left: 360px;
+  width: 580px;
+  height: 250px;
+}
+
+#callout-text-bubble {
+  top: 190px;
+  left: 620px;
+}
+#callout-text-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--accent-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <!-- Browser Chrome -->
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-1/os-analogy</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    
+    <div class="header-banner">
+      <h1>Section 1: What is an Agent Harness?</h1>
+      <p>Understanding the fundamental formula: Model Weights + Operating System Scaffolding</p>
+    </div>
+
+    <!-- Equation Bar -->
+    <div class="equation-bar">
+      <span>SYSTEM:</span>
+      <span class="eq-badge badge-agent">AGENT</span>
+      <span>=</span>
+      <span class="eq-badge badge-model">MODEL (Weights)</span>
+      <span>+</span>
+      <span class="eq-badge badge-harness">HARNESS (OS Scaffolding)</span>
+    </div>
+
+    <!-- Architecture Grid -->
+    <div class="architecture-grid">
+      
+      <!-- Model Card -->
+      <div class="card">
+        <div class="card-title title-model">
+          <span>🧠 Model Layer</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+          Stateless one-shot text generator. Reads input tokens and produces next probability distribution.
+        </p>
+        <div style="background: #064e3b; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; color: #a7f3d0;">
+          Inputs: System Prompt + History<br>
+          Output: Tool Calls / Text
+        </div>
+      </div>
+
+      <!-- Harness Card -->
+      <div class="card" id="harness-card-target">
+        <div class="card-title title-harness">
+          <span>⚙️ Harness Layer (Operating System)</span>
+        </div>
+        
+        <table class="os-mapping-table">
+          <thead>
+            <tr>
+              <th>OS Component</th>
+              <th>Agent Harness Component</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>CPU</strong></td>
+              <td>LLM Engine</td>
+              <td>Executes reasoning & decision cycles</td>
+            </tr>
+            <tr>
+              <td><strong>RAM</strong></td>
+              <td>Context Window</td>
+              <td>Fast, limited volatile state (Compacted)</td>
+            </tr>
+            <tr>
+              <td><strong>Disk</strong></td>
+              <td>JSONL / External DB</td>
+              <td>Crash-safe session persistence & logs</td>
+            </tr>
+            <tr>
+              <td><strong>Drivers</strong></td>
+              <td>Tool Registry</td>
+              <td>File I/O, Bash execution, Browser API</td>
+            </tr>
+            <tr>
+              <td><strong>OS Kernel</strong></td>
+              <td>Harness Loop</td>
+              <td>Schedules calls, verifies output, enforces safety</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Red Border Callout Box -->
+    <div class="callout-border-box" id="callout-highlight-box"></div>
+
+    <!-- Text Speech Bubble Callout -->
+    <div class="callout-bubble" id="callout-text-bubble">
+      💡 Harness drives >6x performance variation!
+    </div>
+
+  </div>
+
+</body>
+</html>

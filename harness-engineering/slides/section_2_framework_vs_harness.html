@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 2: Framework vs Harness</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Replicates the Framework vs. Harness comparison UI.
+--- Delay sequence highlights the shift from developer assembly to pre-wired harness.
+--- Verified static position coordinates.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --framework-accent: #f59e0b;
+  --harness-accent: #10b981;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes borderGlow {
+  0% { border-color: var(--harness-accent); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+  50% { border-color: #34d399; box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+  100% { border-color: var(--harness-accent); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+}
+
+/* Browser Header */
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* Layout */
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 24px;
+  position: relative;
+}
+
+.title-section h1 {
+  font-size: 26px;
+  font-weight: 700;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.4s forwards;
+}
+.title-section p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.6s forwards;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.comp-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+}
+
+#framework-card {
+  animation: fadeIn 0.5s ease-out 0.9s forwards;
+  border-top: 4px solid var(--framework-accent);
+}
+
+#harness-card {
+  animation: fadeIn 0.5s ease-out 1.2s forwards, borderGlow 3s infinite 2.0s;
+  border-top: 4px solid var(--harness-accent);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.card-subtitle {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.sub-framework { background: #78350f; color: #fde68a; }
+.sub-harness { background: #064e3b; color: #a7f3d0; }
+
+.item-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+}
+.item-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.examples-box {
+  margin-top: auto;
+  background-color: #161b22;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 13px;
+}
+.ex-framework { color: #fbbf24; }
+.ex-harness { color: #34d399; }
+
+/* Callout Overlays */
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.5s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.7s forwards;
+  z-index: 10;
+}
+
+#callout-harness-box {
+  top: 155px;
+  left: 675px;
+  width: 580px;
+  height: 440px;
+}
+
+#callout-harness-bubble {
+  top: 105px;
+  left: 780px;
+}
+#callout-harness-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 30px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <!-- Browser Header -->
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-2/framework-vs-harness</div>
+  </div>
+
+  <!-- Content -->
+  <div class="main-content">
+    <div class="title-section">
+      <h1>Section 2: Framework vs. Harness</h1>
+      <p>Understanding the distinction between building blocks for humans and pre-wired engines for agents.</p>
+    </div>
+
+    <div class="comparison-grid">
+      
+      <!-- Framework Card -->
+      <div class="comp-card" id="framework-card">
+        <div class="card-header">
+          <div class="card-title" style="color: var(--framework-accent);">FRAMEWORK</div>
+          <span class="card-subtitle sub-framework">Assembly Required</span>
+        </div>
+        <ul class="item-list">
+          <li>🧩 <strong>Provides primitives:</strong> Chains, state graphs, memory connectors, and vector retrievers.</li>
+          <li>👨‍💻 <strong>Human assembles:</strong> The developer writes the control flow loop and connects the components.</li>
+          <li>⚙️ <strong>Target:</strong> Built for human developers to assemble a specific application pipeline.</li>
+        </ul>
+        <div class="examples-box">
+          <span style="color: var(--text-muted);">Examples:</span><br>
+          <span class="ex-framework">LangChain · LangGraph · AutoGen · CrewAI</span>
+        </div>
+      </div>
+
+      <!-- Harness Card -->
+      <div class="comp-card" id="harness-card">
+        <div class="card-header">
+          <div class="card-title" style="color: var(--harness-accent);">HARNESS</div>
+          <span class="card-subtitle sub-harness">Pre-Wired Engine</span>
+        </div>
+        <ul class="item-list">
+          <li>🚀 <strong>Ships complete:</strong> Loop, context manager, permissions, and tool registry already wired out-of-the-box.</li>
+          <li>🎯 <strong>You supply goal:</strong> Developer gives a top-level prompt; harness handles execution autonomous turn-by-turn.</li>
+          <li>🤖 <strong>Target:</strong> Built for the AI Agent to perform real work directly on workspaces.</li>
+        </ul>
+        <div class="examples-box">
+          <span style="color: var(--text-muted);">Examples:</span><br>
+          <span class="ex-harness">Claude Code · Cursor · Codex · Windsurf</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Highlight Overlays -->
+    <div class="callout-border-box" id="callout-harness-box"></div>
+    <div class="callout-bubble" id="callout-harness-bubble">
+      🎯 Harness ships wired! You only provide the goal.
+    </div>
+
+  </div>
+
+</body>
+</html>
