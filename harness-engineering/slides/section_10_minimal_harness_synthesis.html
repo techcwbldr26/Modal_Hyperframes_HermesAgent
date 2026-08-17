@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 10: Complete Minimal Python Harness</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Replicates Section 10: Full 9-Component Minimal Harness Synthesis.
+--- Keyframe delays reveal the complete 9-component grid.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --accent-emerald: #10b981;
+  --accent-blue: #3b82f6;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+.component-grid-9 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.c-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.c-num { font-size: 11px; font-weight: 700; color: var(--accent-emerald); font-family: monospace; }
+.c-title { font-size: 13px; font-weight: 700; }
+
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.4s forwards;
+  z-index: 10;
+}
+
+#callout-synthesis-box {
+  top: 135px;
+  left: 40px;
+  width: 1210px;
+  height: 480px;
+}
+
+#callout-synthesis-bubble {
+  top: 90px;
+  left: 450px;
+}
+#callout-synthesis-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 30px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-10/minimal-harness-synthesis</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 10: Minimal Python Harness & Synthesis</h1>
+      <p>The complete 9-component architecture assembled into a zero-dependency reference implementation.</p>
+    </div>
+
+    <div class="component-grid-9">
+      <div class="c-card" style="animation-delay: 0.4s;"><span class="c-num">01</span><span class="c-title">The Loop</span></div>
+      <div class="c-card" style="animation-delay: 0.5s;"><span class="c-num">02</span><span class="c-title">Context Management</span></div>
+      <div class="c-card" style="animation-delay: 0.6s;"><span class="c-num">03</span><span class="c-title">Tools & Skills</span></div>
+      <div class="c-card" style="animation-delay: 0.7s;"><span class="c-num">04</span><span class="c-title">Sub-Agent Management</span></div>
+      <div class="c-card" style="animation-delay: 0.8s;"><span class="c-num">05</span><span class="c-title">Built-in Skills</span></div>
+      <div class="c-card" style="animation-delay: 0.9s;"><span class="c-num">06</span><span class="c-title">Session Persistence</span></div>
+      <div class="c-card" style="animation-delay: 1.0s;"><span class="c-num">07</span><span class="c-title">Prompt Assembly</span></div>
+      <div class="c-card" style="animation-delay: 1.1s;"><span class="c-num">08</span><span class="c-title">Lifecycle Hooks</span></div>
+      <div class="c-card" style="animation-delay: 1.2s;"><span class="c-num">09</span><span class="c-title">Permissions & Safety</span></div>
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-synthesis-box"></div>
+    <div class="callout-bubble" id="callout-synthesis-bubble">
+      🎉 Build one to understand one! All 9 components complete.
+    </div>
+
+  </div>
+
+</body>
+</html>

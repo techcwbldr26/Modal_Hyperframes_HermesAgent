@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 3: Component 1 — The Execution Loop</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Demonstrates Component 1: The Execution Loop.
+--- Sequential keyframe delays visualize the 4-step loop state transition.
+*/
+
+:root {
+  --bg-color: #0b0f19;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --loop-blue: #3b82f6;
+  --loop-green: #10b981;
+  --loop-purple: #8b5cf6;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Browser Chrome */
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+/* Grid */
+.loop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.code-panel {
+  background-color: #0d1117;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e6edf3;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.6s forwards;
+}
+.kw { color: #ff7b72; }
+.fn { color: #d2a8ff; }
+.str { color: #a5d6ff; }
+.cm { color: #8b949e; }
+
+.visual-loop-panel {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.9s forwards;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.step-card {
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.step-num { font-size: 11px; font-weight: 700; color: var(--loop-blue); text-transform: uppercase; }
+.step-title { font-size: 14px; font-weight: 600; }
+
+/* Callout */
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.4s forwards;
+  z-index: 10;
+}
+
+#callout-code-box {
+  top: 135px;
+  left: 40px;
+  width: 580px;
+  height: 480px;
+}
+
+#callout-code-bubble {
+  top: 95px;
+  left: 120px;
+}
+#callout-code-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-3/execution-loop</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 3: Component 1 — The Execution Loop</h1>
+      <p>A harness is fundamentally a while loop driving Read -> Act -> Observe -> Repeat.</p>
+    </div>
+
+    <div class="loop-grid">
+      
+      <!-- Python Code Panel -->
+      <div class="code-panel">
+        <span class="kw">def</span> <span class="fn">run_agent_loop</span>(system_prompt, user_goal):<br>
+        &nbsp;&nbsp;messages = [{"role": "system", "content": system_prompt}]<br>
+        &nbsp;&nbsp;<span class="kw">while</span> iteration &lt; max_iterations:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 1. READ & CALL MODEL</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;response = llm.completion(messages)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 2. CHECK TERMINATION</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if not</span> response.tool_calls:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> response.text<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 3. ACT (EXECUTE TOOL)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;result = execute_tool(response.tool_calls[0])<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 4. OBSERVE (APPEND RESULT)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;messages.append({"role": "tool", "content": result})
+      </div>
+
+      <!-- Visual Loop Panel -->
+      <div class="visual-loop-panel">
+        <div class="steps-container">
+          <div class="step-card">
+            <span class="step-num">Step 1: Read</span>
+            <span class="step-title">Read Prompt & History</span>
+          </div>
+          <div class="step-card">
+            <span class="step-num">Step 2: Act</span>
+            <span class="step-title">Model Generates Tool Call</span>
+          </div>
+          <div class="step-card">
+            <span class="step-num">Step 3: Execute</span>
+            <span class="step-title">Harness Runs Tool</span>
+          </div>
+          <div class="step-card">
+            <span class="step-num">Step 4: Observe</span>
+            <span class="step-title">Append Output to Context</span>
+          </div>
+        </div>
+        <div style="margin-top: 10px; color: var(--text-muted); font-size: 13px; text-align: center;">
+          🔄 Cycle repeats until final answer or max iterations reached.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-code-box"></div>
+    <div class="callout-bubble" id="callout-code-bubble">
+      🔁 The entire harness is built around this while loop!
+    </div>
+
+  </div>
+
+</body>
+</html>

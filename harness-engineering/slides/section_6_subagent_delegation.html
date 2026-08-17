@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 6: Component 4 — Sub-Agent Management</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Demonstrates Component 4: Sub-Agent Management & Delegation.
+--- Keyframes illustrate parent-child orchestration.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --parent-indigo: #6366f1;
+  --child-teal: #10b981;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+.subagent-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+}
+
+#card-parent { animation: fadeIn 0.5s ease-out 0.6s forwards; border-left: 4px solid var(--parent-indigo); }
+#card-children { animation: fadeIn 0.5s ease-out 1.0s forwards; border-left: 4px solid var(--child-teal); }
+
+.card-title { font-size: 16px; font-weight: 700; }
+.sub-stack { display: flex; flex-direction: column; gap: 10px; }
+
+.sub-item {
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sub-role { font-weight: 600; font-size: 13px; color: #a7f3d0; }
+.sub-status { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #064e3b; color: #34d399; font-family: monospace; }
+
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.0s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+  z-index: 10;
+}
+
+#callout-compute-box {
+  top: 135px;
+  left: 440px;
+  width: 810px;
+  height: 440px;
+}
+
+#callout-compute-bubble {
+  top: 90px;
+  left: 650px;
+}
+#callout-compute-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-6/subagent-delegation</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 6: Component 4 — Sub-Agent Management & Delegation</h1>
+      <p>Spawn isolated child agents, restrict tools, and collect clean summaries (90% of total compute).</p>
+    </div>
+
+    <div class="subagent-grid">
+      
+      <!-- Parent Card -->
+      <div class="card" id="card-parent">
+        <div class="card-title" style="color: var(--parent-indigo);">👑 Parent Coordinator</div>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">
+          Decomposes goal, delegates sub-tasks, and verifies results. Consumes ~10% of overall compute tokens.
+        </p>
+      </div>
+
+      <!-- Children Card -->
+      <div class="card" id="card-children">
+        <div class="card-title" style="color: var(--child-teal);">🤖 Isolated Child Sub-Agents (~90% Compute)</div>
+        <div class="sub-stack">
+          <div class="sub-item">
+            <div>
+              <div class="sub-role">Exploration Sub-Agent</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Scoped to view_file, grep_search</div>
+            </div>
+            <span class="sub-status">Returned Summary</span>
+          </div>
+          <div class="sub-item">
+            <div>
+              <div class="sub-role">Test Verification Sub-Agent</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Scoped to run_pytest</div>
+            </div>
+            <span class="sub-status">Returned Status</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-compute-box"></div>
+    <div class="callout-bubble" id="callout-compute-bubble">
+      🔥 90% of compute tokens flow through child sub-agents!
+    </div>
+
+  </div>
+
+</body>
+</html>

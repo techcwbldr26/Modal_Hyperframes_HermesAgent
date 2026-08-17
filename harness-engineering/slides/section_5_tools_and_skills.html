@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 5: Tools vs Skills</title>
+<style>
+/*
+--- INSTRUCTIONS FOR DEVELOPER:
+--- Demonstrates Component 3 & 5: Tools vs Skills and Registry Architecture.
+--- Highlights standard library zero-dependency constraints.
+*/
+
+:root {
+  --bg-color: #090d16;
+  --card-bg: #111827;
+  --border-color: #1f293d;
+  --tool-blue: #3b82f6;
+  --skill-purple: #8b5cf6;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --highlight-red: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.browser-chrome {
+  background-color: #0d1117;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+.browser-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+.address-bar {
+  flex: 1;
+  background-color: #161b22;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  position: relative;
+}
+
+.title-box h1 { font-size: 24px; font-weight: 700; }
+.title-box p { color: var(--text-muted); font-size: 14px; }
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+}
+
+#card-tools { animation: fadeIn 0.5s ease-out 0.6s forwards; border-top: 4px solid var(--tool-blue); }
+#card-skills { animation: fadeIn 0.5s ease-out 1.0s forwards; border-top: 4px solid var(--skill-purple); }
+
+.card-title { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.list-item { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.tag { padding: 4px 10px; border-radius: 6px; font-family: monospace; font-size: 12px; }
+.tag-tool { background: #1e3a8a; color: #93c5fd; border: 1px solid #3b82f6; }
+.tag-skill { background: #4c1d95; color: #c4b5fd; border: 1px solid #8b5cf6; }
+
+.callout-border-box {
+  position: absolute;
+  border: 3px solid var(--highlight-red);
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.0s forwards;
+}
+
+.callout-bubble {
+  position: absolute;
+  background-color: var(--highlight-red);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 2.2s forwards;
+  z-index: 10;
+}
+
+#callout-stdlib-box {
+  top: 135px;
+  left: 40px;
+  width: 580px;
+  height: 440px;
+}
+
+#callout-stdlib-bubble {
+  top: 90px;
+  left: 120px;
+}
+#callout-stdlib-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--highlight-red) transparent;
+}
+</style>
+</head>
+<body>
+
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="address-bar">https://course.harness.engineering/section-5/tools-and-skills</div>
+  </div>
+
+  <div class="main-content">
+    <div class="title-box">
+      <h1>Section 5: Component 3 & 5 — Tools, Skills, and Built-ins</h1>
+      <p>Universal primitives (Tools) vs team-encoded knowledge (Skills) bound by a Registry.</p>
+    </div>
+
+    <div class="tools-grid">
+      
+      <!-- Tools Card -->
+      <div class="card" id="card-tools">
+        <div class="card-title" style="color: var(--tool-blue);">🛠️ Universal Tools (Primitives)</div>
+        <div class="list-item">Stateless, executable code handlers. Built using standard library packages for maximum portability.</div>
+        <div class="tag-container">
+          <span class="tag tag-tool">view_file</span>
+          <span class="tag tag-tool">write_file</span>
+          <span class="tag tag-tool">run_bash</span>
+          <span class="tag tag-tool">grep_search</span>
+        </div>
+      </div>
+
+      <!-- Skills Card -->
+      <div class="card" id="card-skills">
+        <div class="card-title" style="color: var(--skill-purple);">📚 Encoded Skills (Knowledge)</div>
+        <div class="list-item">Markdown-formatted instruction files. Encodes team procedures on how to combine primitives.</div>
+        <div class="tag-container">
+          <span class="tag tag-skill">git-rebase-flow</span>
+          <span class="tag tag-skill">test-runner-setup</span>
+          <span class="tag tag-skill">security-audit</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout Overlays -->
+    <div class="callout-border-box" id="callout-stdlib-box"></div>
+    <div class="callout-bubble" id="callout-stdlib-bubble">
+      💡 Built-in primitives should use Python stdlib only!
+    </div>
+
+  </div>
+
+</body>
+</html>
