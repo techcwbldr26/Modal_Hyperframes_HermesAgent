@@ -121,11 +121,12 @@ Per `hyperframes/HYPERFRAMES_HOT_TIPS.md` Audio Sync Workflow: note actual times
 | Node / FFmpeg | v24.16.0 / 8.1.1 |
 | HyperFrames CLI | pinned `0.7.109` |
 
-## Endpoint (live)
+## Endpoint (on-demand — currently stopped)
 
 - **URL:** `https://tamazightdev--qwen38-serve-qwen38server.us-east.modal.direct`
 - **Model:** `Qwen/Qwen3.8-27B` (BF16, 262,144 context, vision-enabled)
 - **GPU:** H200 SXM (141 GB)
+- **Status:** **stopped 2026-08-17** (all analysis complete; no further GPU spend). Redeploy in ~2s when needed: `modal deploy qwen38_serve.py` (image + weights volume-cached).
 - **Cold start:** ~3–4 min warm (volume-cached) / ~8 min first-ever (52 GB Xet download + torch.compile + CUDA graphs)
 - **Warm requests:** <3s text, <3s vision
 - **Auto-scaling:** containers spin down after 15 min idle (`scaledown_window`); first request after idle triggers cold start
